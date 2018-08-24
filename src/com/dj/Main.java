@@ -32,7 +32,7 @@ public class Main {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println(rs.getString("name"));
-				System.out.println("ttttt");
+				System.out.println("ttt");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
