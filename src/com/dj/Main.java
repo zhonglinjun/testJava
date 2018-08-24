@@ -15,12 +15,12 @@ public class Main {
 	public void main() {
 		try {
 
-			// weblogic 环境下使用
+			// weblogic 禄路戮鲁脧脗脢鹿脫脙
 			Hashtable ht = new Hashtable();
 			ht.put(Context.INITIAL_CONTEXT_FACTORY, "weblogic.jndi.WLInitialContextFactory");
 			ht.put(Context.PROVIDER_URL, "t3://192.168.1.88:7001");
-			ht.put(Context.SECURITY_PRINCIPAL, "weblogic");// 用户名
-			ht.put(Context.SECURITY_CREDENTIALS, "weblogic123");// 密码
+			ht.put(Context.SECURITY_PRINCIPAL, "weblogic");// 脫脙禄搂脙没
+			ht.put(Context.SECURITY_CREDENTIALS, "weblogic123");// 脙脺脗毛
 
 			Context ctx;
 			ctx = new InitialContext(ht);
@@ -32,7 +32,6 @@ public class Main {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.println(rs.getString("name"));
-				System.out.println("ttttt");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
