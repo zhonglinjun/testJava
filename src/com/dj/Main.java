@@ -1,41 +1,41 @@
 package com.dj;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Hashtable;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Main {
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static final String URL = "jdbc:mysql://192.168.1.109:3306/user";//数据库连接字符串，这里的deom为数据库名
+	private static final String NAME = "root";//登录名
+	private static final String PASSWORD = "1998";//密码
 	public void main() {
+		//1.加载驱动
 		try {
-
-			// weblogic »·¾³ÏÂÊ¹ÓÃ
-			Hashtable ht = new Hashtable();
-			ht.put(Context.INITIAL_CONTEXT_FACTORY, "weblogic.jndi.WLInitialContextFactory");
-			ht.put(Context.PROVIDER_URL, "t3://192.168.1.88:7001");
-			ht.put(Context.SECURITY_PRINCIPAL, "weblogic");// ÓÃ»§Ãû
-			ht.put(Context.SECURITY_CREDENTIALS, "weblogic123");// ÃÜÂë
-
-			Context ctx;
-			ctx = new InitialContext(ht);
-
-			DataSource source = (DataSource) ctx.lookup("FirstMysql");
-			Connection connection = source.getConnection();
-			String sql = "select name from user where id = 1";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				System.out.println(rs.getString("name"));
-				System.out.println("dj");
-			}
-		} catch (Exception e) {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("未能成功加载驱动程序，请检查是否导入驱动程序！");
+			//添加一个println，如果加载驱动异常，检查是否添加驱动，或者添加驱动字符串是否错误
 			e.printStackTrace();
+		}
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(URL, NAME, PASSWORD);
+			System.out.println("获取数据库连接成功！");
+		} catch (SQLException e) {
+			System.out.println("获取数据库连接失败！");
+			//添加一个println，如果连接失败，检查连接字符串或者登录名以及密码是否错误
+			e.printStackTrace();
+		}
+		//数据库打开后就要关闭
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				conn = null;
+			}
 		}
 	}
 
